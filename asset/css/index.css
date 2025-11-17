@@ -55,19 +55,73 @@ body{
 .membre figure img{
     width: 100%;
 }
-.stats{
+.stats {
+    margin-top: 5rem;
+    
+    background-size: cover;
+    background-repeat: no-repeat;
     height: 100vh;
-  background-image: url(../images/Background.png);
 
+    h2,
+    p {
+        text-align: center;
+    }
+
+    h2 {
+        padding-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat {
+        padding: 20px 50px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        width: max-content;
+        text-align: center;
+
+        span {
+            font-size: 3rem;
+            margin-bottom: .5rem;
+        }
+    }
 }
-.stats h2, .stats p{
+
+.flex-3 {
     display: flex;
     justify-content: center;
+    gap: 4rem;
+    margin-top: 4rem;
+
+    img{
+        width: 280px;
+        border-radius: 10px;
+    }
 }
-.membre img{
-    border-radius: 20px;
+
+.stat-blue {
+    background-color: #019adc;
+    color: #fff;
 }
-.team h2,.team p{
+
+.stat-white {
+    background-color: #fff;
+    color: #000;
+}
+
+.flex-2 {
     display: flex;
     justify-content: center;
+    gap: 4rem;
+    margin-top: 4rem;
+}
+
+.stat-orange {
+    background-color: #dc7000;
+    color: #fff;
+}
+
+.stat-red {
+    background-color: #d80027;
+    color: #fff;
 }

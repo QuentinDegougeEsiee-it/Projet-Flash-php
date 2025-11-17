@@ -12,7 +12,55 @@
     </style>
 </head>
 <?php include '../../partials/header.php'; ?>
+<?php
+// Inclure la base de données
+require '../../database.php';
+$pdo = connectToDBandGetPDOdb();
 
+/*
+ * REQUÊTE AMÉLIORÉE (HYPOTHÉTIQUE)
+ *
+ * J'imagine que vous avez :
+ * 1. Une table 'users' avec 'id' et 'username'
+ * 2. Une table 'games' avec 'id', 'game_name' et 'game_image'
+ * 3. Votre table 'score' a des colonnes 'difficulty' et 'created_at' (ou 'game_date')
+ *
+ * Adaptez les noms de tables et de colonnes si besoin !
+*/
+$sql = "
+    SELECT 
+        s.game_score, 
+        s.difficulty, 
+        s.created_at,
+        u.pseudo AS player_name,
+        g.name
+        
+    FROM score AS s
+    JOIN users AS u ON s.id_user = u.id_user
+    JOIN jeu AS g ON s.game_id = g.id
+    ORDER BY s.game_score DESC
+    LIMIT 6";
+
+$request_all_player = $pdo->prepare($sql);
+$success = $request_all_player->execute();
+
+if ($success) {
+    $all_players = $request_all_player->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    // Gérer l'erreur (par exemple, afficher un message)
+    $all_players = []; // Initialiser en cas d'échec
+}
+
+// Fonction helper pour formater le score (si 'game_score' est en secondes)
+
+
+// Fonction helper pour formater la date
+function format_date_fr($date_sql) {
+    $date = new DateTime($date_sql);
+    return $date->format('d/m/y'); // Format "29/09/25"
+}
+
+?>
 </body>
 
     <div>
@@ -29,98 +77,49 @@
                 <th class="padding_droit2">SCORE</th>
                 <th>Date</th>
             </thead>
+<?php
+
+
+
+
+?>
+
+
+
             <tbody class="body">
-                <tr class="ligne2">
-                    <td>1</td>
-                    <td class="alignement2" >
-                        <div class="arrondis">
-                           
-                                <img src="asset/images/avatar-face-score.jpg" alt="image à définir" width="50" height="50" border-radius:15/>
-                           
-                            <span class="padding_droit3">Power of memory</span>
-                        </div>
-                    </td>
-                    <td>Jhonn DoeJhonn Doe</td>
-                    <td>Difficile</td>
-                    <td>1m36</td>
-                    <td>29/09/25</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td class="alignement2">
-                        <div class="arrondis">
-                           
-                                <img src="asset/images/avatar-face-score.jpg" alt="image à définir" width="50" height="50" border-radius:5/>
-                           
-                            <span class="padding_droit3">Power of memory</span>
-                        </div>
-                    </td>
-                    <td>Joueur 2</td>
-                    <td>Difficile</td>
-                    <td>1m39</td>
-                    <td>29/09/25</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td class="alignement2">
-                        <div class="arrondis">
-                           
-                                <img src="asset/images/avatar-face-score.jpg" alt="image à définir" width="50" height="50" border-radius:5/>
-                           
-                            <span class="padding_droit3">Power of memory</span>
-                        </div>
-                    </td>
-                    <td>Joueur 3</td>
-                    <td>Difficile</td>
-                    <td>1m40</td>
-                    <td>29/09/25</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td class="alignement2">
-                        <div class="arrondis">
-                            
-                                <img src="asset/images/avatar-face-score.jpg" alt="image à définir" width="50" height="50" border-radius:5/>
-                           
-                            <span class="padding_droit3">Power of memory</span>
-                        </div>
-                    </td>
-                    <td>Joueur 4</td>
-                    <td>Difficile</td>
-                    <td>1m50</td>
-                    <td>29/09/25</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td class="alignement2">
-                        <div class="arrondis">
-                           
-                                <img src="asset/images/avatar-face-score.jpg" alt="image à définir" width="50" height="50" border-radius:5/>
-                           
-                            <span class="padding_droit3">Power of memory</span>
-                        </div>
-                    </td>
-                    <td>Joueur 5</td>
-                    <td>Difficile</td>
-                    <td>2m01</td>
-                    <td>29/09/25</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td class="alignement2">
-                        <div class="arrondis">
-                           
-                                <img src="asset/images/avatar-face-score.jpg" alt="image à définir" width="50" height="50" border-radius:5/>
-                           
-                            <span class="padding_droit3"    >Power of memory</span>
-                        </div>
-                    </td>
-                    <td>Joueur 6</td>
-                    <td>Difficile</td>
-                    <td>2m34</td>
-                    <td>29/09/25</td>
-                </tr>
-            </tbody>
+    <?php if (empty($all_players)): ?>
+        
+        <tr class="ligne2">
+            <td colspan="6" style="text-align: center;">Aucun score à afficher pour le moment.</td>
+        </tr>
+
+    <?php else: ?>
+
+        <?php foreach ($all_players as $index => $player): ?>
+            <tr class="ligne2">
+                
+                <td><?php echo $index + 1; // Affiche le rang #1, #2, etc. ?></td>
+                
+                <td class="alignement2">
+                    <div class="arrondis">
+                        <img src="/asset/images/avatar-face-score.jpg" alt="image du jeu" width="50" height="50" style="border-radius:15px;"/>
+                        <span class="padding_droit3"><?php echo htmlspecialchars($player['name']); ?></span>
+                    </div>
+                </td>
+                
+                <td><?php echo htmlspecialchars($player['player_name']); ?></td>
+                
+                <td><?php echo htmlspecialchars($player['difficulty']); ?></td>
+                
+                <td><?php echo $player['game_score']; ?></td>
+                
+                <td><?php echo format_date_fr($player['created_at']); ?></td>
+
+            </tr>
+        <?php endforeach; ?>
+
+    <?php endif; ?>
+</tbody>
         </table>
 
 

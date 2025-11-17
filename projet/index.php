@@ -1,3 +1,23 @@
+<?php 
+require 'Database.php';
+$pdo = connectToDBandGetPDOdb();
+
+// 1. Prepare the statement
+$request = $pdo->prepare("SELECT COUNT(id) FROM score");
+
+// 2. Execute the statement (returns TRUE or FALSE)
+$success = $request->execute();
+
+// 3. Check for success and fetch the result (the count is the first column)
+if ($success) {
+    $count = $request->fetchColumn();
+    echo "Nombre de partie jouer " . $count;
+} else {
+    echo "Error executing the database query.";
+    // You might also want to print error details here for debugging
+    // print_r($request->errorInfo()); 
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -22,7 +42,7 @@
         <p>Une plateforme de jeux en ligne pour tester votre mémoire, vos réflexes et vos stratégies.<br> tout en
             suivant vos scores et ceux de vos amis !</p>
         <a href="contact.html">Commencer !</a>
-        <img class="fond_o" src="asset/images/8bdd2c3954dcf48e04c5934bbab4c1a3cbcad318.png">
+        <img class="fond_o" src="/asset/images/8bdd2c3954dcf48e04c5934bbab4c1a3cbcad318.png">
     </section>
 
     <section class="nos_jeux">
@@ -30,73 +50,113 @@
         <div class="photo">
             <div>
                 <figure>
-                    <img src="asset/images/Memory 1.svg">
+                    <img src="/asset/images/Memory 1.svg">
                 </figure>
                 <span style="color: white;">Power of Memory</span>
             </div>
 
             <div>
                 <figure>
-                    <img src="asset/images/Controller.svg">
+                    <img src="/asset/images/Controller.svg">
                 </figure>
                 <span style="color: white;">Jeux #2 </span>
             </div>
 
             <div>
                 <figure>
-                    <img src="asset/images/Controller.svg">
+                    <img src="/asset/images/Controller.svg">
                 </figure>
                 <span style="color: white;">Jeux #3</span>
             </div>
         </div>
     </section>
-    <section class="play_games">
-        <h2>Plongez dans l’univers du jeu et mesurez vos performances !</h2>
-        <h3>Une expérience unique</h3>
-        <p>Affrontez vos amis, débloquez des succès et tentez de battre des records. Notre plateforme est conçue pour
-            les passionnés qui aiment le challenge et le fun !</p>
-        <figure>
-            <img src="asset/images/VideoGame 2.svg">
-        </figure>
-        <figure>
-            <img src="asset/images/Grid.svg">
-        </figure>
-    </section>
-    <section class="stats">
-        <h2>Une communauté active et compétitive</h2>
-        <p>Des milliers de joueurs se connectent chaque jour pour partager la même passion : le jeu. <br>Rejoignez-les et
-            tentez de grimper dans le classement !</p>
-        <div>
-            <div>
-                <span></span>
-                <span>Parties Jouées</span>
 
+
+
+        <section class="stats">
+        <div class="container">
+            <h2>Lorem Ipsum is simply dummy text of the printing<br> and typesetting industry.</h2>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the 1500s,</p>
+
+            <div class="flex-3">
+                <span class="stat stat-blue">
+                    <span>
+                        <?php 
+$request_all_player = $pdo->prepare("SELECT COUNT(id) FROM score");
+
+$success2 = $request_all_player->execute();
+
+if ($success2) {
+    $count2 = $request_all_player->fetchColumn();
+    echo  $count2;
+} else {
+    echo "Error executing the database query.";
+} ?>
+</span>
+                    <small>Parties Jouées</small>
+                </span>
+
+                <span class="stat stat-white">
+                    <span>1020</span>
+                    <small>Joueurs Connectés</small>
+                </span>
+
+                <span class="stat stat-orange">
+                    <span>10s</span>
+                    <small>Temps Records</small>
+                </span>
             </div>
-            <div>
-                <span></span>
-                <span>Joueurs Connectés</span>
 
+            <div class="flex-2">
+                <span class="stat stat-red">
+                    <span>
+ <?php 
+$request_all_player = $pdo->prepare("SELECT COUNT(id_user) FROM users");
+
+$success2 = $request_all_player->execute();
+
+if ($success2) {
+    $count2 = $request_all_player->fetchColumn();
+    echo  $count2;
+} else {
+    echo "Error executing the database query.";
+
+} ?>
+</span>
+                    <small>Joueurs Inscrits</small>
+                </span>
+
+                <span class="stat stat-orange">
+                    <span>
+                        <?php 
+$request_last_record = $pdo->prepare("SELECT count(id_user) 
+FROM score 
+WHERE 
+    
+    created_at >= CURDATE() 
+    
+   
+    AND game_score > (
+        SELECT MAX(game_score) 
+        FROM score 
+        WHERE created_at < CURDATE()
+    ) ORDER BY game_score DESC LIMIT 1;");
+$success3 = $request_last_record->execute();
+if ($success3) {
+    $count3 = $request_last_record->fetchColumn();
+    echo  $count3;
+} else {
+    echo "Error executing the database query.";
+
+}
+                        
+                        ?>
+                    </span>
+                    <small>Records battu aujourd’hui</small>
+                </span>
             </div>
-            <span></span>
-            <span>Temps Records</span>
-            <div>
-
-            </div>
-
         </div>
-        <div>
-            <div>
-                <span></span>
-                <span>Joueurs Inscrits</span>
-
-            </div>
-            <div>
-                <span></span>
-                <span>Records battu aujourd’hui</span>
-
-            </div>
-        </div>
-
     </section>
     <section class="team">
         <h2>Notre équipe</h2>
