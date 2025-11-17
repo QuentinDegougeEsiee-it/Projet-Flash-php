@@ -24,21 +24,21 @@ Un projet d'école pour transformer un site statique en application web dynamiqu
 
 ## 📚 Sommaire
 
-  * [👥 Notre Équipe](https://www.google.com/search?q=%23-notre-%C3%A9quipe)
-  * [✨ Fonctionnalités (Backlog)](https://www.google.com/search?q=%23-fonctionnalit%C3%A9s-backlog)
-  * [🛠️ Installation & Démarrage](https://www.google.com/search?q=%23%EF%B8%8F-installation--d%C3%A9marrage)
-  * [💻 Technologies Utilisées](https://www.google.com/search?q=%23-technologies-utilis%C3%A9es)
-  * [📁 Structure du Projet](https://www.google.com/search?q=%23-structure-du-projet)
-  * [🤝 Contribuer](https://www.google.com/search?q=%23-contribuer)
-  * [📜 Licence](https://www.google.com/search?q=%23-licence)
+  * [👥 Notre Équipe](https://github.com/QuentinDegougeEsiee-it/Projet-Flash-php?tab=readme-ov-file#-notre-équipe)
+  * [✨ Fonctionnalités (Backlog)](https://github.com/QuentinDegougeEsiee-it/Projet-Flash-php?tab=readme-ov-file#-fonctionnalit%C3%A9s-backlog)
+  * [🛠️ Installation & Démarrage](https://github.com/QuentinDegougeEsiee-it/Projet-Flash-php?tab=readme-ov-file#%EF%B8%8F-installation--d%C3%A9marrage)
+  * [💻 Technologies Utilisées](https://github.com/QuentinDegougeEsiee-it/Projet-Flash-php?tab=readme-ov-file#-technologies-utilis%C3%A9es)
+  * [📁 Structure du Projet](https://github.com/QuentinDegougeEsiee-it/Projet-Flash-php?tab=readme-ov-file#-structure-du-projet)
+  * [🤝 Contribuer](https://github.com/QuentinDegougeEsiee-it/Projet-Flash-php?tab=readme-ov-file#-structure-du-projet)
+  * [📜 Licence](https://github.com/QuentinDegougeEsiee-it/Projet-Flash-php?tab=readme-ov-file#-structure-du-projet)
 
 -----
 
-## 👥 Notre Équipe
+## 👥 Notre Équipe 
 
-  * [Tristan](https://www.google.com/search?q=https://github.com/PSEUDO_TRISTAN)
-  * [Emma](https://www.google.com/search?q=https://github.com/PSEUDO_EMMA)
-  * [Quentin](https://www.google.com/search?q=https://github.com/PSEUDO_QUENTIN)
+  * [Tristan](https://github.com/Trisrav)
+  * [Emma](https://github.com/emma-nkn)
+  * [Quentin](https://github.com/QuentinDegougeEsiee-it)
 
 -----
 
@@ -90,7 +90,7 @@ Suivez ces étapes pour mettre en place le projet sur votre machine locale.
 1.  **Cloner le dépôt**
 
     ```bash
-    git clone https://github.com/VOTRE_PSEUDO/VOTRE_REPO.git
+    git clone https://github.com/QuentinDegougeEsiee-it/Projet-Flash-php.git
     cd VOTRE_REPO
     ```
 
