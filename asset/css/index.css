@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{font-family: 'Poppins', sans-serif;}
+body{
+    background-color:#070320;
+    color:white
+
+}
+.fond_o{
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+    opacity: 0.7;
+    padding-right: 100px;
+}
+.banniere{
+    position: relative;
+    padding-top: 200px;
+
+}
+.o{
+    color: #E87D0E;
+}
+.banniere,
+.nos_jeux,
+.play_games,
+.team,
+.stay_i
+{
+    width: 80%;
+    margin: auto;
+
+}
+
+.photo{
+    display:flex;
+    flex-direction: row;
+}
+.play_games h2{
+    display:flex;
+    justify-content: center;
+    
+}
+
+
+.membre{
+   display: flex;
+    
+}
+
+.membre figure{
+    width: 100%;
+}
+
+.membre figure img{
+    width: 100%;
+}
+.stats{
+    height: 100vh;
+  background-image: url(../images/Background.png);
+
+}
+.stats h2, .stats p{
+    display: flex;
+    justify-content: center;
+}
+.membre img{
+    border-radius: 20px;
+}
+.team h2,.team p{
+    display: flex;
+    justify-content: center;
+}

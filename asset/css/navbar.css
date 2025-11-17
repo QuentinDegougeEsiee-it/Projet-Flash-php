@@ -1,0 +1,278 @@
+nav{
+    font-family: 'popins',sans-serif;
+}
+.social-row {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    box-sizing: border-box;
+}
+.nav-link {
+            position: relative;
+            display: inline-block;
+            padding: 10px 15px;
+            text-decoration: none;
+            transition: color 0.4s ease;
+        }
+:root {
+            --accent-color: #ff8c00; /* Orange vif de l'image */
+            --dash-width: 50px;
+            --dot-size: 6px;
+            --gap: 4px;
+            --bottom-offset: 5px; /* Distance sous le texte */
+        }
+.nav-link::before {
+            content: "";
+            position: absolute;
+            bottom: var(--bottom-offset);
+            
+            /* Point de départ centré */
+            left: 50%;
+            
+            height: 4px; /* Épaisseur du trait */
+            background-color: var(--accent-color);
+            width: 0; /* Commence invisible/sans largeur */
+            border-radius: 2px;
+            
+            /* Initialement centré sur 50%, mais width: 0 */
+            transform: translateX(-50%); 
+            
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); /* Animation douce */
+        }
+.nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: var(--bottom-offset);
+            
+            /* Positionnement Initial: Caché/centré sous le texte */
+            left: 50%;
+            transform: translateX(-50%); 
+
+            width: var(--dot-size);
+            height: var(--dot-size);
+            background-color: var(--accent-color);
+            border-radius: 50%; /* Forme ronde */
+            opacity: 0; /* Commence invisible */
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .nav-link:hover::before {
+            /* 1. Fait grandir le dash à sa taille finale */
+            width: var(--dash-width); 
+            /* 2. Déplace le dash vers la GAUCHE pour faire de la place au point à droite */
+            transform: translateX(calc(-50% - (var(--dot-size) / 2) - (var(--gap) / 2)));
+        }
+        .nav-link:hover::after {
+            /* 1. Rend le dot visible */
+            opacity: 1; 
+            /* 2. Déplace le dot vers la DROITE pour se placer juste après le dash */
+            transform: translateX(calc(-50% + (var(--dash-width) / 2) + (var(--gap) / 2)));
+        }
+
+.navbar {
+    padding-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    margin: 0 auto;
+    overflow: hidden;
+    height: 45px;
+    gap: 86px;
+}
+
+header img {
+    margin-left: 10px;
+    width: 40px;
+    height: 40px;
+}
+nav a {
+    text-decoration: none;
+    color: white; 
+    font-size: 16px;
+    padding: 14px 16px;
+}
+.list-nav {
+    list-style: none;
+    display: inline;
+    padding: 14px 16px;
+}
+.colored-btn-nav {
+    background-color: #D80027;
+    border-radius: 8px;
+    padding: 10px 10px;
+}
+.footer {
+    background-color: white;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+}
+.footer {
+    background-color: white;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.one img {
+    width: 30px;
+    height: 30px;
+}
+
+.two span {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.two a {
+    color: black;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.three span {
+    font-weight: bold;
+}
+
+.three p {
+    margin: 0;
+}
+
+.four img {
+    width: 30px;
+    height: 30px;
+}
+
+.one {
+    width: 30%;
+}
+
+.two {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: flex-start;
+    width: 25%;
+    text-align: center;
+}
+
+.three {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 25%;
+}
+
+.four {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    align-self: flex-end;
+}
+.four {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    align-self: flex-end;
+}
+
+.footer-container {
+    padding-top: 50px;
+    background-color: white;
+    width: 100%;
+    padding-bottom: 50px;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #ccc;
+    margin: 0;
+}
+
+.mention {
+    margin: 0;
+    padding: 18px 0 8px 0;
+    text-align: center;
+    color: #222;
+    background-color: white;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.5px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    box-shadow: 0 -2px 12px 0 rgba(0, 0, 0, 0.04);
+}
+.mention img {
+    vertical-align: middle;
+    margin: 0 4px;
+}
+
+.one p,span{
+    color: black;
+}
+.two p,span{
+    color: black;
+}
+.three p,span{
+    color: black;
+}
+@media screen and (max-width: 768px) {
+
+    
+    .navbar {
+        flex-direction: column; 
+        height: auto;           
+        padding-bottom: 20px;
+        gap: 20px;
+    }
+
+    .navbar ol {
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        padding: 0;             
+        gap: 15px;
+    }
+    
+    .list-nav {
+        padding: 0;
+    }
+
+   
+    .footer {
+        flex-direction: column; 
+        align-items: center;    
+        text-align: center;     
+        gap: 30px;             
+    }
+
+    .one, .two, .three, .four {
+        width: 100%;             
+        align-items: center;     
+        align-self: auto;        
+    }
+    
+    .social-row {
+        justify-content: center; 
+    }
+}
