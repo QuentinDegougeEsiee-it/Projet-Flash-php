@@ -102,8 +102,12 @@ if ($success2) {
                 </span>
 
                 <span class="stat stat-orange">
+<<<<<<< HEAD
                     <span> 
         <?php
+=======
+                    <span> <?php
+>>>>>>> refs/remotes/origin/main
 $request_all_player = $pdo->prepare("SELECT min(game_score) FROM score");
 
 $success2 = $request_all_player->execute();
