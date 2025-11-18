@@ -103,7 +103,27 @@ if ($success2) {
                 </span>
 
                 <span class="stat stat-orange">
-                    <span>10s</span>
+                    <span> <?php
+$request_all_player = $pdo->prepare("SELECT min(game_score) FROM score");
+
+$success2 = $request_all_player->execute();
+
+if ($success2) {
+    $count2 = $request_all_player->fetchColumn();
+    $count3 = $count2 / 60;
+    echo round( $count3 ,2) . "<span style='font-size: 1rem'>Min</span>";
+    
+} else {
+    echo "Error executing the database query.";
+}
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    ?></span>
                     <small>Temps Records</small>
                 </span>
             </div>
