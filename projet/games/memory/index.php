@@ -69,7 +69,6 @@
   <div class="right-container">
       <img src="asset/images/image-memorie.png" alt="">
   </div>
-
 </section>
 <footer class="footer-container">
     <div class="footer">

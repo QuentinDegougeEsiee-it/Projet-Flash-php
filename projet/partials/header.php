@@ -17,7 +17,26 @@ function est_active(string $uri_lien, string $uri_actuelle_clean): string {
 }
 
 ?>
+<?php
 
+session_start(); 
+
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ./login.php');
+    exit; // Always exit after a header redirect
+}
+
+
+if (isset($_SESSION['user_name']) && $_SESSION['user_name'] == "root") {
+    echo '<pre>';
+    echo "User ID: " . $_SESSION['user_id'] . "<br>";
+    print_r($_SESSION); 
+    echo '</pre>';
+}
+
+// 4. The rest of your page content goes here...
+?>
 <head>
     <link rel="stylesheet" href="/asset/css/navbar.css">
     <style>

@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="/asset/css/scores.css">
    
     <link rel="shortcut icon" href="/asset/images/favicon.png" type="image/x-icon">
-    <style>
 
-    </style>
 </head>
 <?php include '../../partials/header.php'; ?>
+
+
 <?php
 // Inclure la base de données
 require '../../database.php';
@@ -51,7 +51,6 @@ if ($success) {
     $all_players = []; // Initialiser en cas d'échec
 }
 
-// Fonction helper pour formater le score (si 'game_score' est en secondes)
 
 
 // Fonction helper pour formater la date
@@ -77,12 +76,7 @@ function format_date_fr($date_sql) {
                 <th class="padding_droit2">SCORE</th>
                 <th>Date</th>
             </thead>
-<?php
 
-
-
-
-?>
 
 
 
@@ -98,12 +92,12 @@ function format_date_fr($date_sql) {
         <?php foreach ($all_players as $index => $player): ?>
             <tr class="ligne2">
                 
-                <td><?php echo $index + 1; // Affiche le rang #1, #2, etc. ?></td>
+                <td><?php echo $index + 1; ?></td>
                 
                 <td class="alignement2">
                     <div class="arrondis">
                         <img src="/asset/images/avatar-face-score.jpg" alt="image du jeu" width="50" height="50" style="border-radius:15px;"/>
-                        <span class="padding_droit3"><?php echo htmlspecialchars($player['name']); ?></span>
+                        <span class="padding_droit3"><?php echo $player['name']; ?></span>
                     </div>
                 </td>
                 
