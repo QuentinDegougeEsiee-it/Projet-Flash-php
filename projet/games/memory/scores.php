@@ -16,6 +16,16 @@
 // Inclure la base de données
 require '../../database.php';
 $pdo = connectToDBandGetPDOdb();
+$where_clause = ''; 
+$search_term = null; 
+if (isset($_GET['query']) && !empty($_GET['query'])) {
+    $search_term = '%' . $_GET['query'] . '%';
+    $where_clause = " WHERE u.pseudo LIKE :pseudo_recherche ";
+}
+elseif ($search_term !== null) {
+    $request_all_player->bindValue(':pseudo_recherche', $search_term, PDO::PARAM_STR);
+}
+
 
 /*
  * REQUÊTE AMÉLIORÉE (HYPOTHÉTIQUE)
@@ -38,10 +48,16 @@ $sql = "
     FROM score AS s
     JOIN users AS u ON s.id_user = u.id_user
     JOIN jeu AS g ON s.game_id = g.id
+    " . $where_clause . "
     ORDER BY s.game_score DESC
     LIMIT 6";
 
 $request_all_player = $pdo->prepare($sql);
+
+if ($search_term !== null) {
+    $request_all_player->bindValue(':pseudo_recherche', $search_term, PDO::PARAM_STR);
+}
+
 $success = $request_all_player->execute();
 
 if ($success) {
@@ -67,6 +83,14 @@ function format_date_fr($date_sql) {
         <div><h1 class="titre">SCORES</h1></div>
         <p class="sous_titre">Que les esprits des mondes oubliés guident ton destin… Voici ton score, gravé dans les runes du destin !</p>
     </div>
+
+    <div id="score_search">
+        <h2>Rechercher un joueur</h2>
+        <form action="scores.php" method="GET">
+        <input type="text" name="query" placeholder="Entrez le Pseudo" >
+        <button type="submit">Rechercher</button>
+    </div>
+
     <section>
         <table id="tableau_score">
             <thead class="ligne1">
@@ -77,13 +101,6 @@ function format_date_fr($date_sql) {
                 <th class="padding_droit2">SCORE</th>
                 <th>Date</th>
             </thead>
-<?php
-
-
-
-
-?>
-
 
 
             <tbody class="body">
