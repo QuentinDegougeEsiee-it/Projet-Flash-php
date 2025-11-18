@@ -49,7 +49,7 @@ $sql = "
     JOIN users AS u ON s.id_user = u.id_user
     JOIN jeu AS g ON s.game_id = g.id
     " . $where_clause . "
-    ORDER BY s.game_score DESC
+    ORDER BY s.game_score ASC
     LIMIT 6";
 
 $request_all_player = $pdo->prepare($sql);
@@ -83,13 +83,13 @@ function format_date_fr($date_sql) {
         <div><h1 class="titre">SCORES</h1></div>
         <p class="sous_titre">Que les esprits des mondes oubliés guident ton destin… Voici ton score, gravé dans les runes du destin !</p>
     </div>
-
     <div id="score_search">
         <h2>Rechercher un joueur</h2>
         <form action="scores.php" method="GET">
         <input type="text" name="query" placeholder="Entrez le Pseudo" >
         <button type="submit">Rechercher</button>
     </div>
+
 
     <section>
         <table id="tableau_score">
@@ -119,8 +119,8 @@ function format_date_fr($date_sql) {
                 
                 <td class="alignement2">
                     <div class="arrondis">
-                        <img src="/asset/images/avatar-face-score.jpg" alt="image du jeu" width="50" height="50" style="border-radius:15px;"/>
-                        <span class="padding_droit3"><?php echo htmlspecialchars($player['name']); ?></span>
+                        <img src="/asset/images/Memory_1.svg" alt="image du jeu" width="50" height="50" style="border-radius:15px;"/>
+                        <span class="padding_droit3"><?php echo $player['name']; ?></span>
                     </div>
                 </td>
                 
@@ -144,13 +144,13 @@ function format_date_fr($date_sql) {
 <section class="container-bottom">
   
     <div class="left-container">
-      <h2>Joue au Mémoire — Teste ta mémoire, amuse-toi, gagne des points !</h2>
+      <h3>Joue au Mémoire — Teste ta mémoire, amuse-toi, gagne des points !</h3>
       <p>Plonge dans l’univers du jeu de mémoire : retrouve les paires cachées, affronte le chronomètre et grimpe au classement ! Idéal pour les enfants comme pour les adultes, ce jeu stimule la concentration et la mémoire visuelle. Prêt(e) à relever le défi ?</p>
       <p>Plus tu joues, plus tu progresses ! Débloque des niveaux, des thèmes et des récompenses en atteignant des scores élevés.</p>
       <a href="Jeu.html">Jouer</a>
   </div>
   <div class="right-container">
-      <img src="asset/images/image-memorie.png" alt="">
+      <img src="/asset/images/image-memorie.png" alt="">
   </div>
 
 </section>
@@ -160,7 +160,7 @@ function format_date_fr($date_sql) {
     
 <footer class="footer-container">
     <div class="footer">
-<div class="one" ><img src="asset/images/logo.webp" alt="">
+<div class="one" ><img src="/asset/images/logo.webp" alt="">
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse scelerisque in tortor vitae sollicitudin. </p>
 </div>
 <div class="two"><span>Menu</span>
@@ -172,10 +172,10 @@ function format_date_fr($date_sql) {
 <a href="mailto:contact@web.com">contact@web.com</a></div>
 <div class="four">
     <div class="social-row">
-        <a href=""><img src="asset/images/facebook-circle-fill.svg" alt=""></a>
-        <a href=""><img src="asset/images/instagram-fill.svg" alt=""></a>
-        <a href=""><img src="asset/images/linkedin-fill.svg" alt=""></a>
-        <a href=""><img src="asset/images/twitter-fill.svg" alt=""></a>
+        <a href=""><img src="/asset/images/facebook-circle-fill.svg" alt=""></a>
+        <a href=""><img src="/asset/images/instagram-fill.svg" alt=""></a>
+        <a href=""><img src="/asset/images/linkedin-fill.svg" alt=""></a>
+        <a href=""><img src="/asset/images/twitter-fill.svg" alt=""></a>
     </div>
 </div>
 
