@@ -119,7 +119,7 @@ function format_date_fr($date_sql) {
                 
                 <td class="alignement2">
                     <div class="arrondis">
-                        <img src="/asset/images/Memory_1.svg" alt="image du jeu" width="50" height="50" style="border-radius:15px;"/>
+                        <img src="/asset/images/istockphoto-181100968-612x612.jpg" alt="image du jeu" width="50" height="50" style="border-radius:15px;"/>
                         <span class="padding_droit3"><?php echo $player['name']; ?></span>
                     </div>
                 </td>

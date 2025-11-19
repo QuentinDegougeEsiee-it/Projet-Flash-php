@@ -39,29 +39,46 @@ if (isset($_SESSION['user_name']) && $_SESSION['user_name'] == "root") {
 ?>
 <head>
     <link rel="stylesheet" href="/asset/css/navbar.css">
-    <style>
-        .active-page {
-            font-weight: bold;
-            color: #ffcc00 !important; 
-            border-bottom: 3px solid #ffcc00;
-        }
-    </style>
+
 </head>
 <div style="background-color:#070320;">
 <header class="header">
     <nav class="navbar">
-    <img src="/asset/images/logo.webp" alt="image_logo à définir" width="100" height="100"/>
-        <ol>
+        <img class="logo" src="/asset/images/logo.webp" alt="Logo" />
+
+        <ol class="Ol-flex">
             <li class="list-nav">
-                <a href="<?php echo $uri_accueil; ?>" class="nav-link<?php echo est_active($uri_accueil, $page_demandee_clean); ?>"> Accueil </a>
+                <a href="<?php echo $uri_accueil; ?>" class="nav-link <?php echo est_active($uri_accueil, $page_demandee_clean); ?>">
+                    Accueil
+                </a>
             </li>
             
             <li class="list-nav">
-                <a href="<?php echo $uri_scores; ?>" class="nav-link<?php echo est_active($uri_scores, $page_demandee_clean); ?>"> Scores </a>
+                <a href="<?php echo $uri_scores; ?>" class="nav-link <?php echo est_active($uri_scores, $page_demandee_clean); ?>">
+                    Scores
+                </a>
             </li>
             
             <li class="list-nav">
-                <a class="colored-btn-nav nav-link<?php echo est_active($uri_contact, $page_demandee_clean); ?>" href="<?php echo $uri_contact; ?>"> Nous contacter </a>
+                <a href="<?php echo $uri_contact; ?>" class="colored-btn-nav nav-link <?php echo est_active($uri_contact, $page_demandee_clean); ?>">
+                    Nous contacter
+                </a>
+            </li>
+        
+            <li class="list-nav">
+                <div class="dropdown">
+                    <a href="#" style="display: flex; align-items: center;">
+                        <img class="avatar" 
+                             src="https://ui-avatars.com/api/?name=<?php echo htmlspecialchars($_SESSION['user_name'] ?? 'User'); ?>&background=random" 
+                             alt="Profil">
+                    </a>
+                    
+                    <div class="dropdown-content">
+                        <a href="./Account.php">Mon Profil</a>
+                        <a href="#">Paramètres</a>
+                        <a href="#">Déconnexion</a>
+                    </div>
+                </div>
             </li>
         </ol>
     </nav>

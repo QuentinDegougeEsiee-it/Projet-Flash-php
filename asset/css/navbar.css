@@ -1,11 +1,10 @@
-nav{
-    font-family: 'popins',sans-serif;
-}
-.social-row {
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    margin-top: 12px;
+/* --- GLOBAL --- */
+:root {
+    --accent-color: #ff8c00;
+    --dash-width: 50px;
+    --dot-size: 6px;
+    --gap: 4px;
+    --bottom-offset: 5px;
 }
 
 body {
@@ -14,69 +13,15 @@ body {
     padding: 0;
 }
 
+nav {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* --- NAVBAR --- */
 .header {
     box-sizing: border-box;
+    position: relative; /* Important pour le z-index context */
 }
-.nav-link {
-            position: relative;
-            display: inline-block;
-            padding: 10px 15px;
-            text-decoration: none;
-            transition: color 0.4s ease;
-        }
-:root {
-            --accent-color: #ff8c00; /* Orange vif de l'image */
-            --dash-width: 50px;
-            --dot-size: 6px;
-            --gap: 4px;
-            --bottom-offset: 5px; /* Distance sous le texte */
-        }
-.nav-link::before {
-            content: "";
-            position: absolute;
-            bottom: var(--bottom-offset);
-            
-            /* Point de départ centré */
-            left: 50%;
-            
-            height: 4px; /* Épaisseur du trait */
-            background-color: var(--accent-color);
-            width: 0; /* Commence invisible/sans largeur */
-            border-radius: 2px;
-            
-            /* Initialement centré sur 50%, mais width: 0 */
-            transform: translateX(-50%); 
-            
-            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); /* Animation douce */
-        }
-.nav-link::after {
-            content: "";
-            position: absolute;
-            bottom: var(--bottom-offset);
-            
-            /* Positionnement Initial: Caché/centré sous le texte */
-            left: 50%;
-            transform: translateX(-50%); 
-
-            width: var(--dot-size);
-            height: var(--dot-size);
-            background-color: var(--accent-color);
-            border-radius: 50%; /* Forme ronde */
-            opacity: 0; /* Commence invisible */
-            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .nav-link:hover::before {
-            /* 1. Fait grandir le dash à sa taille finale */
-            width: var(--dash-width); 
-            /* 2. Déplace le dash vers la GAUCHE pour faire de la place au point à droite */
-            transform: translateX(calc(-50% - (var(--dot-size) / 2) - (var(--gap) / 2)));
-        }
-        .nav-link:hover::after {
-            /* 1. Rend le dot visible */
-            opacity: 1; 
-            /* 2. Déplace le dot vers la DROITE pour se placer juste après le dash */
-            transform: translateX(calc(-50% + (var(--dash-width) / 2) + (var(--gap) / 2)));
-        }
 
 .navbar {
     padding-top: 25px;
@@ -85,32 +30,207 @@ body {
     align-items: center;
     width: 95%;
     margin: 0 auto;
-    overflow: hidden;
     height: 45px;
     gap: 86px;
+    
+    /* CORRECTION MAJEURE ICI : suppression de overflow: hidden */
+    overflow: visible; 
+    position: relative;
+    z-index: 100;
 }
 
-header img {
+header img.logo {
     margin-left: 10px;
     width: 40px;
     height: 40px;
 }
-nav a {
-    text-decoration: none;
-    color: white; 
-    font-size: 16px;
-    padding: 14px 16px;
-}
-.list-nav {
+
+/* --- LIENS DE NAVIGATION --- */
+.Ol-flex {
+    display: flex;
+    align-items: center; /* Centre verticalement les éléments */
+    margin: 0;
+    padding: 0;
     list-style: none;
-    display: inline;
-    padding: 14px 16px;
 }
+
+.list-nav {
+    display: inline-block;
+    padding: 0 10px; /* Ajusté pour éviter trop d'espace */
+}
+
+.nav-link {
+    position: relative;
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    transition: color 0.4s ease;
+}
+
+/* Animation du soulignement (Dash & Dot) */
+.nav-link::before {
+    content: "";
+    position: absolute;
+    bottom: var(--bottom-offset);
+    left: 50%;
+    height: 4px;
+    background-color: var(--accent-color);
+    width: 0;
+    border-radius: 2px;
+    transform: translateX(-50%);
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: var(--bottom-offset);
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--dot-size);
+    height: var(--dot-size);
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.nav-link:hover::before {
+    width: var(--dash-width);
+    transform: translateX(calc(-50% - (var(--dot-size) / 2) - (var(--gap) / 2)));
+}
+
+.nav-link:hover::after {
+    opacity: 1;
+    transform: translateX(calc(-50% + (var(--dash-width) / 2) + (var(--gap) / 2)));
+}
+
 .colored-btn-nav {
     background-color: #D80027;
     border-radius: 8px;
     padding: 10px 10px;
 }
+
+.active-page {
+    font-weight: bold;
+    color: #ffcc00 !important;
+    /* border-bottom géré par l'animation ci-dessus, ou gardez ceci si vous préférez le style simple */
+}
+
+/* --- AVATAR & DROPDOWN (CORRIGÉ) --- */
+.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 40px; /* Taille imposée pour éviter les déformations */
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.dropdown:hover .avatar {
+    border-color: #ffcc00;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.6);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    
+    /* Positionnement correction */
+    top: 100%; /* Juste sous l'élément parent */
+    right: 0;  /* Aligne le menu à droite de l'avatar pour qu'il ne sorte pas de l'écran */
+    margin-top: 0; /* Petit espace sous l'avatar */
+    
+    z-index: 1000; /* INDISPENSABLE pour passer au-dessus du reste */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+    color: var(--accent-color);
+}
+
+/* Affichage au survol */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* --- FOOTER --- */
+.footer-container {
+    padding-top: 50px;
+    background-color: white;
+    width: 100%;
+    padding-bottom: 50px;
+}
+.footer {
+    background-color: white;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+}
+/* (Le reste de votre CSS Footer est conservé tel quel...) */
+
+/* --- RESPONSIVE --- */
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
+        padding-bottom: 20px;
+        gap: 20px;
+        overflow: visible;
+    }
+    .navbar ol {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    .list-nav {
+        padding: 5px 0;
+    }
+    .dropdown-content {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%); /* Centre le menu sur mobile */
+        text-align: center;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 .footer {
     background-color: white;
     margin-left: 10%;
