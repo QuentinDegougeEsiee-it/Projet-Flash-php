@@ -77,7 +77,7 @@ if (isset($_SESSION['user_name']) && $_SESSION['user_name'] == "root") {
                     <div class="dropdown-content">
                         <a href="/projet/Account.php">Mon Profil</a>
                         <a href="#">Paramètres</a>
-                        <a onlcick="" href="./login.php">Déconnexion</a>
+                        <a onlcick="" href="/projet/disconnect.php">Déconnexion</a>
                     </div>
                 </div>
             </li>
