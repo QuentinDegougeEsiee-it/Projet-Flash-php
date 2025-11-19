@@ -23,7 +23,7 @@ session_start();
 
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ./login.php');
+    header('Location: login.php');
     exit; // Always exit after a header redirect
 }
 
@@ -37,6 +37,7 @@ if (isset($_SESSION['user_name']) && $_SESSION['user_name'] == "root") {
 
 // 4. The rest of your page content goes here...
 ?>
+
 <head>
     <link rel="stylesheet" href="/asset/css/navbar.css">
 
@@ -74,9 +75,9 @@ if (isset($_SESSION['user_name']) && $_SESSION['user_name'] == "root") {
                     </a>
                     
                     <div class="dropdown-content">
-                        <a href="./Account.php">Mon Profil</a>
+                        <a href="/projet/Account.php">Mon Profil</a>
                         <a href="#">Paramètres</a>
-                        <a href="#">Déconnexion</a>
+                        <a onlcick="" href="./login.php">Déconnexion</a>
                     </div>
                 </div>
             </li>
