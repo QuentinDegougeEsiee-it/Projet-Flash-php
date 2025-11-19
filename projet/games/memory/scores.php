@@ -11,10 +11,12 @@
 
     </style>
 </head>
-<?php include '../../partials/header.php'; ?>
+<?php
+require '../../database.php';
+ include '../../partials/header.php'; ?>
 <?php
 // Inclure la base de données
-require '../../database.php';
+
 $pdo = connectToDBandGetPDOdb();
 $where_clause = ''; 
 $search_term = null; 

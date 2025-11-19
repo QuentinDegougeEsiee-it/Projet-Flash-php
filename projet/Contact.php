@@ -8,7 +8,10 @@
     <link rel="shortcut icon" href="/asset/images/favicon.png" type="image/x-icon">
 </head>
 <body>
-    <?php include './partials/header.php'; ?>
+    <?php
+    require './database.php';
+    include './partials/header.php'; 
+    ?>
 
 
 

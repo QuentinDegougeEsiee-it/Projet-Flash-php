@@ -2,21 +2,6 @@
 require 'Database.php';
 $pdo = connectToDBandGetPDOdb();
 
-// 1. Prepare the statement
-$request = $pdo->prepare("SELECT COUNT(id) FROM score");
-
-// 2. Execute the statement (returns TRUE or FALSE)
-$success = $request->execute();
-
-// 3. Check for success and fetch the result (the count is the first column)
-if ($success) {
-    $count = $request->fetchColumn();
-    echo "Nombre de partie jouer " . $count;
-} else {
-    echo "Error executing the database query.";
-    // You might also want to print error details here for debugging
-    // print_r($request->errorInfo()); 
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -29,45 +14,58 @@ if ($success) {
     <link rel="shortcut icon" href="../asset/images/favicon.png" type="image/x-icon">
 </head>
 <body>
-    
+    <link rel="stylesheet" href="/asset/index.css">
 
 <?php include './partials/header.php'; ?>
+<div class="container">
+    
 
 
 
-    <section class="banniere">
-        <p class="o">Découvrez nos jeux</p>
-        <h1>Jouez,<br>progressez et<br>défiez vos amis !</h1>
-        <p>Une plateforme de jeux en ligne pour tester votre mémoire, vos réflexes et vos stratégies.<br> tout en
-            suivant vos scores et ceux de vos amis !</p>
-        <a href="contact.html">Commencer !</a>
-        <img class="fond_o" src="/asset/images/8bdd2c3954dcf48e04c5934bbab4c1a3cbcad318.png">
-    </section>
+        <!--Hero section-->
+        <section class="hero-section">
+            <small>Jouez. Mémorisez. Gagnez.</small>
+            <h1>Des jeux rapides et addictifs</h1>
+            <p>Power of Memories vous propose des parties courtes et stimulantes pour entraîner votre mémoire, grimper au
+                classement et battre vos amis. Accessible à tous, amusant pour chacun.</p>
 
-    <section class="nos_jeux">
-        <h2>Nos Jeux</h2>
-        <div class="photo">
-            <div>
+            <a href="./views/game.html">Commencer !</a>
+            <img src="/asset/images/mannette.png">
+        </section>
+
+        <section class="game-section">
+            <h2>Nos jeux</h2>
+
+            <div class="flex">
                 <figure>
-                    <img src="/asset/images/Memory 1.svg">
+                    <img src="/asset/images/Memory_1.svg" alt="Description de l'image">
+                    <figcaption>Power Of Memory</figcaption>
                 </figure>
-                <span style="color: white;">Power of Memory</span>
-            </div>
 
-            <div>
                 <figure>
-                    <img src="/asset/images/Controller.svg">
+                    <img src="/asset/images/Memory_1.svg"alt="Description de l'image">
+                    <figcaption>Jeux #2</figcaption>
                 </figure>
-                <span style="color: white;">Jeux #2 </span>
-            </div>
 
-            <div>
                 <figure>
-                    <img src="/asset/images/Controller.svg">
+                    <img src="/asset/images/Memory_1.svg" alt="Description de l'image">
+                    <figcaption>Jeux #2</figcaption>
                 </figure>
-                <span style="color: white;">Jeux #3</span>
             </div>
-        </div>
+        </section>
+
+        <h2 class="title">Jouez quelques minutes par jour pour améliorer votre attention et votre mémoire.</h2>
+
+        <section class="desc">
+            <h2>Lorem Ipsum</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse scelerisque in tortor vitae
+                sollicitudin. Aliquam lacus augue, rhoncus eget porta et, egestas ut augue.</p>
+        </section>
+
+    
+    <section  class="game-img-section">
+        <img src="/asset/images/VideoGame 2.svg" class="img-bg">
+        <img src="/asset/images/Grid.svg" class="grid-img">
     </section>
 
 
@@ -178,48 +176,55 @@ if ($success3) {
             </div>
         </div>
     </section>
-    <section class="team">
+    <!--Crew section-->
+    <section class="crew">
         <h2>Notre équipe</h2>
-        <p>tout un groupe compétent certain un peu plus que les autres</p>
-        <div class="membre">
-            <figure>
-                <img src="https://cdn.discordapp.com/attachments/1422198805897412638/1423252936519057540/IMG_0665.jpg?ex=68e04bd6&is=68defa56&hm=95858816bcec17b586f7d6ffab98aac7bafb77797381836487bf7224381cd4d6">
-                <figcaption>Sohan</figcaption>
-            </figure>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse scelerisque in tortor vitae
+            sollicitudin.</p>
 
+        <div class="flex-3">
             <figure>
-                <img src="https://cdn.discordapp.com/attachments/1422198805897412638/1423582264742252544/IMG_20251002_103834.jpg?ex=68e0d5cc&is=68df844c&hm=c302d28efb7d0dc16dc2cf32bc23755478c6618ab7c97bdb51ecef9496ec1f1f">
+                <img src="./assets/img/member1.jpeg" alt="Thomas Galabert">
                 <figcaption>Tristan</figcaption>
             </figure>
 
-
             <figure>
-
-                <img src="https://cdn.discordapp.com/attachments/1422198805897412638/1423582276372922378/IMG_20240427_142110.jpg?ex=68e0d5cf&is=68df844f&hm=577918929ebebc4b91997379ee873c5e2e54c74276597bf885723d3ad141ef21">
+                <img src="./assets/img/member2.png" alt="Description de l'image">
                 <figcaption>Quentin</figcaption>
             </figure>
-
+                        <figure>
+                <img src="./assets/img/member1.jpeg" alt="Thomas Galabert">
+                <figcaption>Emma</figcaption>
+            </figure>
         </div>
-    </section>
-    <section class="stay_i">
-        <h2></h2>
-        <p></p>
-        <div>
-            <h2>Restez Informé</h2>
-            <p>rentrez votre adresse mail pour toute nouveautée</p>
-            <form action="">
-                <input type="email" name="" id="">
-                <button>
-                    Valider
 
-                </button>
+    </section>
+
+    <div class="container">
+        <section class="desc">
+            <h2>Lorem Ipsum</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse scelerisque in tortor vitae
+                sollicitudin. Aliquam lacus augue, rhoncus eget porta et, egestas ut augue.</p>
+        </section>
+
+        <!--Newslatter section-->
+        <div class="banner">
+            <div>
+                <h2>Restez informé</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse scelerisque in tortor vitae
+                    sollicitudin.</p>
+            </div>
+
+            <form method="post">
+                <input type="email" placeholder="Adresse email">
+                <button class="confirm-btn">Valider</button>
             </form>
-
         </div>
-    </section>
+    </div>
 
 
 
+</div>
 
 
 
