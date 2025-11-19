@@ -24,7 +24,7 @@ session_start();
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
-    exit; // Always exit after a header redirect
+    exit; 
 }
 
 
@@ -35,7 +35,6 @@ if (isset($_SESSION['user_name']) && $_SESSION['user_name'] == "root") {
     echo '</pre>';
 }
 
-// 4. The rest of your page content goes here...
 ?>
 
 <head>
@@ -70,13 +69,14 @@ if (isset($_SESSION['user_name']) && $_SESSION['user_name'] == "root") {
                 <div class="dropdown">
                     <a href="#" style="display: flex; align-items: center;">
                         <img class="avatar" 
-                             src="https://ui-avatars.com/api/?name=<?php echo htmlspecialchars($_SESSION['user_name'] ?? 'User'); ?>&background=random" 
+                             src="<?php echo !empty($_SESSION['user_picture']) 
+    ? htmlspecialchars($_SESSION['user_picture']) 
+    : 'https://ui-avatars.com/api/?name=' . urlencode($_SESSION['user_name'] ?? 'User') . '&background=random'; ?>" 
                              alt="Profil">
                     </a>
                     
                     <div class="dropdown-content">
                         <a href="/projet/Account.php">Mon Profil</a>
-                        <a href="#">Paramètres</a>
                         <a onlcick="" href="/projet/disconnect.php">Déconnexion</a>
                     </div>
                 </div>

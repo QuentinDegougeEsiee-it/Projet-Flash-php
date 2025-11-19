@@ -1,6 +1,75 @@
+
 <?php
 session_start();
+
+require_once 'vendor/autoload.php';
+require 'database.php';
+
+$pdo = connectToDBandGetPDOdb();
+
+// --- CONFIGURATION ---
+// REMINDER: Store these in a separate file or environment variables!
+$clientID = '1017172755379-mn9kv7sa20tb42nng8sti6p6c1c0j9t6.apps.googleusercontent.com';
+$clientSecret = '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';
+$redirectUri = 'http://localhost/projet/login.php';
+
+$client = new Google\Client();
+$client->setClientId($clientID);
+$client->setClientSecret($clientSecret);
+$client->setRedirectUri($redirectUri);
+$client->addScope("email");
+$client->addScope("profile");
+
+// --- LOGIQUE DE CONNEXION ---
+
+if (isset($_GET['code'])) {
+    // CAS 2 : Google a redirigé l'utilisateur avec un code
+    $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+
+    // FIX 1: Removed the empty "if()" syntax error
+    if (!isset($token['error'])) {
+        $client->setAccessToken($token['access_token']);
+
+        // On récupère les infos du profil Google
+        $oauth2 = new Google\Service\Oauth2($client);
+        $googleUser = $oauth2->userinfo->get();
+        
+        // FIX 2: execute() expects an array for parameters
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->execute([$googleUser->email]); 
+        $user = $stmt->fetch();
+
+        if ($user) {
+            // L'utilisateur existe
+            $_SESSION['user_id'] = $user['id_user'];
+            $_SESSION['user_email'] = $user['email'];
+            $_SESSION['user_name'] = $user['name'];
+            $_SESSION['user_picture'] = $googleUser->picture;
+
+            // Redirection vers l'accueil
+            header('Location: /projet/');
+            exit; // FIX 3: Always exit after a header redirect
+        } else {
+            // L'utilisateur n'est pas inscrit
+            // FIX 4: Handle the error properly so it doesn't redirect anyway
+            echo "Erreur : Cet adresse email n'est pas inscrite dans notre base de données.";
+            // Optional: Link to registration page?
+            header('Location: /projet/register.php');
+            exit; 
+        }
+
+    } else {
+        echo "Erreur lors de la connexion avec Google (Token Error).";
+    }
+} else {
+    // CAS 1 : Génération de l'URL de connexion
+    $loginUrl = $client->createAuthUrl();
+    // You typically want to display a link here:
+    // echo "<a href='$loginUrl'>Se connecter avec Google</a>";
+}
 ?>
+
+ 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -63,11 +132,17 @@ session_start();
                 <div class="divider">
                     <span>Ou</span>
                 </div>
-
-                <a class="connect-google" href="#">
+<?php if (!isset($_SESSION['user_email'])): ?>
+                <a class="connect-google" href="<?php echo $loginUrl; ?>">
                     <img class="img-google" src="/asset/images/Google.svg" alt="Logo Google">
                     <span class="text google">‎ Se connecter avec Google</span>
                 </a>
+                
+        
+    <?php else: ?>
+        <p>Bonjour, <?php echo $_SESSION['user_name']; ?> !</p>
+        <img src="<?php echo $_SESSION['user_picture']; ?>" alt="Avatar" width="50">
+    <?php endif; ?>
 
                 <p class="signup-link">
                     Pas de compte ? <a href="register.php">Je m'inscris</a>
