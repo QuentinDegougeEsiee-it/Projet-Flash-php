@@ -1,5 +1,6 @@
 <?php
 require_once './database.php';
+<<<<<<< HEAD
 session_start(); 
 
 $pdo = connectToDBandGetPDOdb();
@@ -8,10 +9,19 @@ $message = "";
 $messageType = "error"; 
 
 // Variables pour réafficher le formulaire (Sticky form)
+=======
+$pdo = connectToDBandGetPDOdb();
+
+$message = "";
+$messageType = "error"; // Pour gérer la couleur (error = rouge, success = vert)
+
+// Initialisation des variables pour garder les valeurs dans le formulaire en cas d'erreur
+>>>>>>> cd0117f28e691861b8e8cd9253e8ab7fe7d66892
 $user_value = "";
 $email_value = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+<<<<<<< HEAD
     // 1. Récupération et nettoyage
     $user = trim($_POST['username'] ?? '');
     $email = trim($_POST['email'] ?? '');
@@ -22,6 +32,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email_value = htmlspecialchars($email);
 
     // 2. Validations de base
+=======
+    // Nettoyage
+    $user = trim($_POST['username']);
+    $email = trim($_POST['email']);
+    $pass = $_POST['password'];
+    $confirm_pass = $_POST['confirm_password'];
+
+    // On garde les valeurs pour les réafficher dans le formulaire (UX)
+    $user_value = $user;
+    $email_value = $email;
+
+>>>>>>> cd0117f28e691861b8e8cd9253e8ab7fe7d66892
     if (empty($user) || empty($email) || empty($pass)) {
         $message = "Tous les champs sont obligatoires.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -29,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($pass !== $confirm_pass) {
         $message = "Les mots de passe ne correspondent pas.";
     } else {
+<<<<<<< HEAD
         try {
             // 3. Vérifier si l'email existe
             $stmt = $pdo->prepare("SELECT id_user FROM users WHERE email = ?");
@@ -43,11 +66,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // On insère l'utilisateur
                 $sql = "INSERT INTO users (pseudo, email, password) VALUES (:username, :email, :password)";
                 $stmt = $pdo->prepare($sql);
+=======
+        // 1. Vérifier si l'email existe déjà
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        
+        if ($stmt->rowCount() > 0) {
+            $message = "Cet email est déjà utilisé.";
+        } else {
+            // 2. Hachage
+            $hash = password_hash($pass, PASSWORD_DEFAULT);
+
+            // 3. Insertion
+            $sql = "INSERT INTO users (pseudo, email, password) VALUES (:username, :email, :password)";
+            $stmt = $pdo->prepare($sql);
+
+            try {
+>>>>>>> cd0117f28e691861b8e8cd9253e8ab7fe7d66892
                 $stmt->execute([
                     ':username' => $user,
                     ':email' => $email,
                     ':password' => $hash
                 ]);
+<<<<<<< HEAD
 
                 $new_user_id = $pdo->lastInsertId();
 
@@ -106,10 +147,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Cela peut révéler des infos sur votre BDD aux hackers.
             error_log("Erreur Inscription : " . $e->getMessage()); // Enregistre dans les logs serveur
             $message = "Une erreur technique est survenue. Veuillez réessayer plus tard.";
+=======
+                
+                $messageType = "success";
+                $message = "Succès ! Vous êtes inscrit. <a href='login.php'>Connectez-vous ici</a>";
+                
+                // On vide les champs si l'inscription est réussie
+                $user_value = "";
+                $email_value = "";
+
+            } catch (PDOException $e) {
+                // LOGGUER L'ERREUR DANS UN FICHIER (côté serveur), ne pas l'afficher à l'utilisateur
+                error_log("Erreur inscription : " . $e->getMessage()); 
+                $message = "Une erreur technique est survenue. Veuillez réessayer plus tard.";
+            }
+>>>>>>> cd0117f28e691861b8e8cd9253e8ab7fe7d66892
         }
     }
 }
 ?>
+<<<<<<< HEAD
 
 
 
@@ -119,6 +176,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
+=======
+>>>>>>> cd0117f28e691861b8e8cd9253e8ab7fe7d66892
 <!DOCTYPE html> 
 <html lang="fr">
 <head>
@@ -137,7 +196,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 C'est rapide et gratuit !</p>
             </div>
 
+<<<<<<< HEAD
             <form class="form-container" action="" enctype="multipart/form-data"  method="POST">
+=======
+            <form class="form-container" action="" method="POST">
+>>>>>>> cd0117f28e691861b8e8cd9253e8ab7fe7d66892
                         <?php if(!empty($message)): ?>
             <div class="message <?php echo $messageType; ?>">
                 <?php echo $message; ?>
@@ -169,9 +232,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     id="password" 
                     placeholder="8 caractères minimum" 
                     required
+<<<<<<< HEAD
                     minlength="8"
                     maxlength="100"
 
+=======
+                    maxlength="8"
+>>>>>>> cd0117f28e691861b8e8cd9253e8ab7fe7d66892
                 >
 
                 <label for="confirm_password">Confirmer le mot de passe</label>
@@ -181,20 +248,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     id="confirm-_assword" 
                     placeholder="8 caractères minimum" 
                     required
+<<<<<<< HEAD
                     minlength="8"
                     maxlength="100"
                 >
                 <label for="image">Ajouter votre photo de profil</label>
     <input   type="file" name="image" accept=".jpg, .jpeg, .png, .svg, image/jpeg, image/png, image/svg+xml">
+=======
+                    maxlength="8"
+                >
+>>>>>>> cd0117f28e691861b8e8cd9253e8ab7fe7d66892
 
                 <button class="connexion-btn" type="submit">S'inscrire</button>
             </form>
 
             <div class="other-options">
                 <div class="divider">
+<<<<<<< HEAD
                     <span>et</span>
                 </div>
 
+=======
+                    <span>Ou</span>
+                </div>
+
+                <a class="connect-google" href="index.html">
+                    <img class="img-google" src="/asset/images/Google.svg" alt="Logo Google">
+                    <span class="text google">‎ S'inscrire avec Google</span>
+                </a>
+>>>>>>> cd0117f28e691861b8e8cd9253e8ab7fe7d66892
 
                 <p class="signup-link">
                     Déjà un compte ? <a href="login.php">Je me connecte</a>
