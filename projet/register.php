@@ -1,6 +1,5 @@
 <?php
 require_once './database.php';
-// Démarrage de session si on veut connecter l'utilisateur directement après (optionnel)
 session_start(); 
 
 $pdo = connectToDBandGetPDOdb();
@@ -8,19 +7,19 @@ $pdo = connectToDBandGetPDOdb();
 $message = "";
 $messageType = "error"; 
 
-// Variables pour réafficher le formulaire
+// Variables pour réafficher le formulaire (Sticky form)
 $user_value = "";
 $email_value = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // 1. Récupération et nettoyage
-    $user = trim($_POST['username']);
-    $email = trim($_POST['email']);
-    $pass = $_POST['password'];
-    $confirm_pass = $_POST['confirm_password'];
+    $user = trim($_POST['username'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $pass = $_POST['password'] ?? '';
+    $confirm_pass = $_POST['confirm_password'] ?? '';
 
-    $user_value = $user;
-    $email_value = $email;
+    $user_value = htmlspecialchars($user); // Sécurité XSS pour le réaffichage
+    $email_value = htmlspecialchars($email);
 
     // 2. Validations de base
     if (empty($user) || empty($email) || empty($pass)) {
@@ -30,18 +29,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($pass !== $confirm_pass) {
         $message = "Les mots de passe ne correspondent pas.";
     } else {
-        // 3. Vérifier si l'email existe
-        $stmt = $pdo->prepare("SELECT id_user FROM users WHERE email = ?");
-        $stmt->execute([$email]);
-        
-        if ($stmt->rowCount() > 0) {
-            $message = "Cet email est déjà utilisé.";
-        } else {
-            // 4. Hachage et Insertion
-            $hash = password_hash($pass, PASSWORD_DEFAULT);
+        try {
+            // 3. Vérifier si l'email existe
+            $stmt = $pdo->prepare("SELECT id_user FROM users WHERE email = ?");
+            $stmt->execute([$email]);
+            
+            if ($stmt->rowCount() > 0) {
+                $message = "Cet email est déjà utilisé.";
+            } else {
+                // 4. Hachage et Insertion
+                $hash = password_hash($pass, PASSWORD_DEFAULT);
 
-            try {
-                // On commence par insérer l'utilisateur SANS photo
+                // On insère l'utilisateur
                 $sql = "INSERT INTO users (pseudo, email, password) VALUES (:username, :email, :password)";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
@@ -50,51 +49,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     ':password' => $hash
                 ]);
 
-                // *** RECUPERATION DE L'ID DU NOUVEL UTILISATEUR ***
                 $new_user_id = $pdo->lastInsertId();
 
-                // 5. Traitement de l'image (seulement si inscription réussie et image présente)
+                // 5. Traitement de l'image
                 if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
                     
-                    $dossier = "photo de profil/";
-                    if (!is_dir($dossier)) {
-                        mkdir($dossier, 0755, true); // 0755 est plus sûr que 0777
-                    }
+                    // A. Validation du type MIME (Plus sûr que l'extension seule)
+                    $finfo = new finfo(FILEINFO_MIME_TYPE);
+                    $mimeType = $finfo->file($_FILES['image']['tmp_name']);
+                    $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
+                    // B. Validation de l'extension
                     $extension = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
-                    $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+                    $allowedExt = ['jpg', 'jpeg', 'png', 'gif'];
 
-                    // Vérification de l'extension
-                    if (in_array($extension, $allowed)) {
-                        // Nommage sécurisé : ID_unique.ext (évite les conflits et caractères spéciaux)
-                        $nomFichier = 'user_' . $new_user_id . '.' . $extension;
-                        $destination = $dossier . $nomFichier;
-
-                        if (move_uploaded_file($_FILES['image']['tmp_name'], $destination)) {
-                            // Mise à jour de la BDD avec le chemin de l'image
-                            $sqlUpdate = "UPDATE users SET photo_profil = ? WHERE id_user = ?";
-                            $stmtUpdate = $pdo->prepare($sqlUpdate);
-                            $stmtUpdate->execute([$destination, $new_user_id]);
-                        } else {
-                            // Warning non bloquant
-                            $message .= " (Erreur lors de l'enregistrement de l'image).";
+                    if (in_array($mimeType, $allowedMimeTypes) && in_array($extension, $allowedExt)) {
+                        
+                        // Création du dossier userFile/ID/
+                        $targetDir = "userFile/" . $new_user_id . "/";
+                        if (!is_dir($targetDir)) {
+                            mkdir($targetDir, 0755, true);
                         }
+
+                        // Nommage du fichier
+                        $nomFichier = 'user_' . $new_user_id . '.' . $extension;
+                        $destination = $targetDir . $nomFichier;
+
+                        // C. Limite de taille (ex: 5MB) - Optionnel mais recommandé
+                        if ($_FILES['image']['size'] <= 5000000) {
+                             if (move_uploaded_file($_FILES['image']['tmp_name'], $destination)) {
+                                // Mise à jour BDD
+                                $sqlUpdate = "UPDATE users SET photo_profil = ? WHERE id_user = ?";
+                                $stmtUpdate = $pdo->prepare($sqlUpdate);
+                                $stmtUpdate->execute([$destination, $new_user_id]);
+                            } else {
+                                $message .= " (Erreur : Impossible de déplacer l'image).";
+                            }
+                        } else {
+                            $message .= " (Image trop lourde. Max 5Mo).";
+                        }
+                       
                     } else {
-                        $message .= " (Format d'image non supporté, inscription réussie sans image).";
+                        $message .= " (Format d'image invalide, inscription réussie sans image).";
                     }
                 }
 
                 $messageType = "success";
                 $message = "Inscription réussie ! <a href='login.php'>Connectez-vous ici</a>";
                 
-                // Reset des valeurs
+                // Reset des valeurs en cas de succès
                 $user_value = "";
                 $email_value = "";
-
-            } catch (PDOException $e) {
-                echo"Erreur inscription : " . $e->getMessage(); 
-                $message = "Une erreur technique est survenue.";
             }
+        } catch (PDOException $e) {
+            // NE JAMAIS afficher $e->getMessage() en production aux utilisateurs
+            // Cela peut révéler des infos sur votre BDD aux hackers.
+            error_log("Erreur Inscription : " . $e->getMessage()); // Enregistre dans les logs serveur
+            $message = "Une erreur technique est survenue. Veuillez réessayer plus tard.";
         }
     }
 }
