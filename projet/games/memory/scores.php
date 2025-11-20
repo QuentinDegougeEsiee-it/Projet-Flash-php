@@ -85,11 +85,11 @@ function format_date_fr($date_sql) {
         <div><h1 class="titre">SCORES</h1></div>
         <p class="sous_titre">Que les esprits des mondes oubliés guident ton destin… Voici ton score, gravé dans les runes du destin !</p>
     </div>
-    <div id="score_search">
+    <div  id="score_search">
         <h2>Rechercher un joueur</h2>
-        <form action="scores.php" method="GET">
-        <input type="text" name="query" placeholder="Entrez le Pseudo" >
-        <button type="submit">Rechercher</button>
+        <form  style=" padding:8px;" action="scores.php" method="GET">
+        <input style=" padding:8px; border:none; border-radius:5px;" type="text" name="query" placeholder="Entrez le Pseudo" >
+        <button style="border:none; border-radius:5px; cursor:pointer; padding:8px;" type="submit">Rechercher</button>
     </div>
 
 
